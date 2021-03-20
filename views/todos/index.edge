@@ -1,0 +1,49 @@
+@layout('template')
+
+@section('content')
+<form action="/actions" method="POST">
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+    <div class="todo-table">
+        <h1>My Todo's</h1>
+        <h6>4 Total, 1 Complete and 3 Pending</h6>
+        @if(success_message)
+            <p style="color: green;">{{ success_message }}</p>
+        @endif
+        <div class="btn-holder">
+            <a href="/add" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Todo</a>
+            <button name="action" value="edit" class="btn btn-secondary"><i class="fa fa-edit"></i> Edit Todo</button>
+            <button name="action" value="delete" class="btn btn-danger"><i class="fa fa-times"></i> Delete Todo</button>
+            <button name="action" value="complete" class="btn btn-purple"><i class="fa fa-thumbs-up"></i> Mark Complete</button>
+            <button name="action" value="pending" class="btn btn-orange"><i class="fa fa-thumbs-down"></i> Mark Pending</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Todo Title</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @each(todo in todos)
+                    <tr class="
+                        @if(todo.status) 
+                            {{ 'complete' }} 
+                        @endif 
+                        ">
+                        <td><input  type="radio" required name="_id" value="{{ todo._id }}" id=""></td>
+                        <td>{{ todo.title }}</td>
+                        @if(todo.status)
+                            <td>Complete</td>
+                        @else
+                            <td>Pending</td>
+                        @endif
+                    </tr>
+                @endeach
+                
+                
+            </tbody>
+        </table>
+    </div>
+</form>
+@endsection
